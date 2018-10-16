@@ -14,11 +14,11 @@ import java.io.IOException;
 public class optimun_all {
     public static void main(String[] args) throws IOException {
         String Hostname = "http://www.optimum-lab.ru/";
-         String Path = "http://www.optimum-lab.ru/category/1405/";
+         String Path = "http://www.optimum-lab.ru/category/bani-laboratornye/";
 
 
         String CatalogName = "med1";
-        int LastPage = 5;
+        int LastPage = 10;
         Workbook wb = new HSSFWorkbook();
         CreationHelper createHelper = wb.getCreationHelper();
         Sheet sheet1 = wb.createSheet(CatalogName);
@@ -77,8 +77,21 @@ public class optimun_all {
                     String KOD_product1 = doc4.getElementsByClass("hint").first().text();  //всегда ли код первым?
                     System.out.println(KOD_product1);
 
-                    String Proizvoditel = doc4.getElementsByClass("tab-pane fade in active").select("p").first().text(); //всегда ли первый
-                    System.out.println(Proizvoditel);
+                    String Proizvoditel2 = doc4.getElementsByClass("tab-pane fade in active").select("p").first().text(); //всегда ли первый
+                    System.out.println(Proizvoditel2);
+//
+//                    String Proizvoditel = doc4.select("p").get(5).text();
+//                    System.out.println(Proizvoditel);
+//
+//                    String Proizvoditel3 = doc4.select("p").get(6).text();
+//                    System.out.println(Proizvoditel3);
+//
+                    String Proizvoditel55 = doc4.getElementsByClass("description").next("p").text();
+                    System.out.println(Proizvoditel55);
+
+//                    String Proizvoditel4 = doc4.select("p").get(7).text();
+//                    System.out.println(Proizvoditel4);
+
 
 //                    String Description0 = doc4.getElementsByClass("product-summary margin-bottom-20").text();
 //                    System.out.println(Description0);
@@ -115,7 +128,7 @@ public class optimun_all {
 
 
                     int t = 0;
-                    int y4 = 20;
+                    int y4 = 35;
 
                     Elements breadcrumbs = doc4.getElementsByClass("breadcrumb").select("a");
 
@@ -164,10 +177,20 @@ public class optimun_all {
                     Cell cell230 = row.createCell(7);
                     cell230.setCellValue("шт.");
 
+                    Cell cell825 = row.createCell(14);
+                    cell825.setCellValue(Proizvoditel55);
 
-                    Cell cell225 = row.createCell(14);
-                    cell225.setCellValue(Proizvoditel);
+//                    Cell cell725 = row.createCell(12);
+//                    cell725.setCellValue(Proizvoditel3);
+//
+                    Cell cell625 = row.createCell(13);
+                    cell625.setCellValue(Proizvoditel2);
+////
+//                    Cell cell225 = row.createCell(14);
+//                    cell225.setCellValue(Proizvoditel);
 
+                    Cell cell425 = row.createCell(21);
+                    cell425.setCellValue(ID_product1);
 
 
 
