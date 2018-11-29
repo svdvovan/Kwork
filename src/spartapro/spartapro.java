@@ -18,7 +18,7 @@ import java.util.Iterator;
 public class spartapro {
     public static void main(String[] args) throws IOException {
 
-        String Tovar = "соевый";
+        String Tovar = "сумки-и-рюкзаки";
 
 
 

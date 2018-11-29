@@ -14,11 +14,11 @@ import java.io.IOException;
 public class optimun_all {
     public static void main(String[] args) throws IOException {
         String Hostname = "http://www.optimum-lab.ru/";
-         String Path = "http://www.optimum-lab.ru/category/bani-laboratornye/";
+         String Path = "http://www.optimum-lab.ru/category/laboratornaya-mebel/";
 
 
         String CatalogName = "med1";
-        int LastPage = 10;
+        int LastPage = 67;
         Workbook wb = new HSSFWorkbook();
         CreationHelper createHelper = wb.getCreationHelper();
         Sheet sheet1 = wb.createSheet(CatalogName);
