@@ -23,7 +23,7 @@ public class bt_tv_ru {
         String Path = "http://bt-tv.ru/televideoaudio-tehnika.html";
 
         String CatalogName = Tovar;
-        int LastPage = 83;
+        int LastPage = 2;
         Workbook wb = new HSSFWorkbook();
         CreationHelper createHelper = wb.getCreationHelper();
         Sheet sheet1 = wb.createSheet(CatalogName);
@@ -43,40 +43,27 @@ public class bt_tv_ru {
 
         int Page = 0;
         for (int count = 1; count <= LastPage; count++) {
-            String  Path2 = Path+ "?p" + Page;
+            String  Path2 = Path+ "?p=" + Page;
 
-            Document doc1 = Jsoup.connect(Path2).get();
-
-            Elements ID = doc1.getElementsByClass("productID");
-//            int IDcount =0;
-
-//            for (Element IDes : ID) {
-//                String IDs = (ID.text());
-//                System.out.println(IDs);
-////                IDcount++;
-//
-//
-//
-//
-//            }
 
 
 
+            Document doc1 = Jsoup.connect(Path2).get();
 
             Elements links3 = doc1.getElementsByClass("productName");
             int yyy = 0;
             for (Element link3 : links3) {
 
-//                String ID = doc1.getElementsByClass("productID").get(yyy).text();
-//                System.out.println(ID);
-//
-//                String MainPrice = doc1.getElementsByClass("price").get(yyy).text();
-//                System.out.println(MainPrice);
+                String ID = doc1.getElementsByClass("productID").get(yyy).text();
+                System.out.println(ID);
+
+                String MainPrice = doc1.getElementsByClass("price").get(yyy).text();
+                System.out.println(MainPrice);
 
                 System.out.println();
                 String addressUrl3 = (links3.get(yyy).select("a[href]").attr("abs:href"));
                 System.out.println(addressUrl3);
-                System.out.println(ID.text());
+
 
 
 
@@ -154,17 +141,17 @@ public class bt_tv_ru {
                     }
 ///////////////////////////////////////////////////////////
 
-//
-//                    Cell cell227 = row.createCell(0);
-//                    cell227.setCellValue(IDs);
+
+                    Cell cell227 = row.createCell(0);
+                    cell227.setCellValue(ID);
 
 
                     Cell cell1 = row.createCell(1);
                     cell1.setCellValue(Category);
 
-//
-//                    Cell cell224 = row.createCell(2);
-//                    cell224.setCellValue(MainPrice);
+
+                    Cell cell224 = row.createCell(2);
+                    cell224.setCellValue(MainPrice);
 
                     Cell cell2242 = row.createCell(3);
                     cell2242.setCellValue(NamePrduct);
