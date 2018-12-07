@@ -22,8 +22,9 @@ public class bt_tv_ru {
 
         String Path = "http://bt-tv.ru/televideoaudio-tehnika.html";
 
+
         String CatalogName = Tovar;
-        int LastPage = 2;
+        int LastPage = 83;
         Workbook wb = new HSSFWorkbook();
         CreationHelper createHelper = wb.getCreationHelper();
         Sheet sheet1 = wb.createSheet(CatalogName);
@@ -40,8 +41,8 @@ public class bt_tv_ru {
         }
         Sheet sheet = wb.getSheetAt(0);
 
-
-        int Page = 0;
+      //  int Page = 59;
+        int Page = 59;
         for (int count = 1; count <= LastPage; count++) {
             String  Path2 = Path+ "?p=" + Page;
 
@@ -165,6 +166,10 @@ public class bt_tv_ru {
                 catch (java.lang.IndexOutOfBoundsException e) {
                     e.printStackTrace();
                 }
+                catch (java.lang.NullPointerException e) {
+                    e.printStackTrace();
+                }
+
 
                 System.out.println();
                 yyy++;
