@@ -24,7 +24,7 @@ public class bt_tv_ru {
 
 
         String CatalogName = Tovar;
-        int LastPage = 83;
+        int LastPage = 81;
         Workbook wb = new HSSFWorkbook();
         CreationHelper createHelper = wb.getCreationHelper();
         Sheet sheet1 = wb.createSheet(CatalogName);
@@ -42,7 +42,7 @@ public class bt_tv_ru {
         Sheet sheet = wb.getSheetAt(0);
 
       //  int Page = 59;
-        int Page = 59;
+        int Page = 1;
         for (int count = 1; count <= LastPage; count++) {
             String  Path2 = Path+ "?p=" + Page;
 
@@ -89,6 +89,8 @@ public class bt_tv_ru {
                   String NamePrduct =   doc4.getElementsByTag("h1").text();
                     System.out.println(NamePrduct);
 
+                    String Proizvoditel =   doc4.getElementsByTag("a").select("[target=_blank]").first().text();
+                    System.out.println(Proizvoditel);
 
                     int rowCount = sheet.getLastRowNum();
                     Row row = sheet.createRow(++rowCount);
@@ -110,7 +112,7 @@ public class bt_tv_ru {
                         System.out.print(Har2);
 
                         Cell cell1000 = row.createCell(y2);
-                        cell1000.setCellValue(Har);
+                        cell1000.setCellValue("Свойства->"+Har);
 
                         Cell cell2000 = row.createCell(y2+1);
                         cell2000.setCellValue(Har2);
@@ -156,6 +158,9 @@ public class bt_tv_ru {
 
                     Cell cell2242 = row.createCell(3);
                     cell2242.setCellValue(NamePrduct);
+
+                    Cell cell22422 = row.createCell(9);
+                    cell22422.setCellValue(Proizvoditel);
 
                 }catch (java.lang.IllegalArgumentException e){
                     e.printStackTrace();}
