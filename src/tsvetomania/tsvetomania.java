@@ -1,4 +1,4 @@
-package indecor_me;
+package tsvetomania;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -13,16 +13,16 @@ import java.io.IOException;
 import java.util.Iterator;
 
 /**
- * Created by SretenskyVD on 04.02.2019.
+ * Created by SretenskyVD on 19.02.2019.
  */
-public class opac {
+public class tsvetomania {
     public static void main(String[] args) throws IOException {
-
-        String Tovar = "Угловые элементы";
+        System.setProperty("javax.net.ssl.trustStore", "S://ProjectJava/Kwork/src/tsvetomania/tsvetomania.crt.jks");
+        String Tovar = "Эустома";
         String Manual_category =Tovar;
-        String Manual_Proizvoditel = "Orac Decor";
+        String Manual_Proizvoditel = "Цветомания";
 
-        String Path = "http://orac.ru/lepnina/uglovye-ehlementy/";
+        String Path = "https://tsvetomania.ru/catalog/eustoma/";
 
 
         String CatalogName = Tovar;
@@ -46,21 +46,25 @@ public class opac {
         //  int Page = 59;
         int Page = 1;
         for (int count = 1; count <= LastPage; count++) {
-            String  Path2 = Path+ "?page=" + Page;
-//            String  Path2 = Path;
+//            String  Path2 = Path+ "?page=" + Page;
+            String  Path2 = Path;
 
 
 
             Document doc1 = Jsoup.connect(Path2).get();
 
-            Elements links3 = doc1.getElementsByClass("caption");
+            Elements links3 = doc1.getElementsByClass("catalog__content catalog__content_main");
             int yyy = 0;
             for (Element link3 : links3) {
 
-                String ID = doc1.getElementsByClass("sku").get(yyy).text();
-                System.out.println(ID);
+                String dataID = doc1.getElementsByClass("button-text catalog__button\n" +
+                        "\t\t\t\t\tcatalog__button-price addToBasket").get(yyy).attr("data-id");
+                System.out.println(dataID);
 
-                String MainPrice = doc1.getElementsByClass("price").get(yyy).text();
+                String NameProduct = doc1.getElementsByClass("catalog__name").get(yyy).text();
+                System.out.println(NameProduct);
+
+                String MainPrice = doc1.getElementsByClass("catalog__price").get(yyy).text();
                 System.out.println(MainPrice);
 
                 System.out.println();
@@ -90,52 +94,56 @@ public class opac {
                     System.out.println(Category);
 
 
-                    String NamePrduct =   doc4.getElementsByTag("h1").text();
-                    System.out.println(NamePrduct);
+//                    String NamePrduct =   doc4.getElementsByTag("h1").text();
+//                    System.out.println(NamePrduct);
 
 
 
 //                    String Proizvoditel =   doc4.getElementsByTag("a").select("[target=_blank]").first().text();
-               //     String Proizvoditel = Manual_Proizvoditel;
-                    String Proizvoditel  = doc4.getElementsByClass("list-unstyled").first().select("li").get(0).text();
-                    System.out.println(Proizvoditel);
+                    //     String Proizvoditel = Manual_Proizvoditel;
+//                    String Proizvoditel  = doc4.getElementsByClass("list-unstyled").first().select("li").get(0).text();
+//                    System.out.println(Proizvoditel);
+
+                    String Description  = doc4.getElementsByClass("form__text").first().text();
+                   System.out.println(Description);
+
 
                     int rowCount = sheet.getLastRowNum();
                     Row row = sheet.createRow(++rowCount);
 
 
-                    Elements table = doc4.getElementsByClass("table table-bordered");
-                    Iterator<Element> ite = table.select("td").iterator();
-
-                    Elements row2 = table.select("td");
-
-                    int y2 = 15;
-
-                    for (Element rows : row2) {
-
-                        String Har = ite.next().text();
-
-                        System.out.print(Har);
-
-
-                        Cell cell1000 = row.createCell(y2);
-                        cell1000.setCellValue(Har);
-
-
-
-                        y2++;
-
-                    }
+//                    Elements table = doc4.getElementsByClass("table table-bordered");
+//                    Iterator<Element> ite = table.select("td").iterator();
+//
+//                    Elements row2 = table.select("td");
+//
+//                    int y2 = 15;
+//
+//                    for (Element rows : row2) {
+//
+//                        String Har = ite.next().text();
+//
+//                        System.out.print(Har);
+//
+//
+//                        Cell cell1000 = row.createCell(y2);
+//                        cell1000.setCellValue(Har);
+//
+//
+//
+//                        y2++;
+//
+//                    }
 
 ///////////////////////////////////
-                  String MainFoto = doc4.getElementsByClass("thumbnail pop").select("a").attr("abs:href");
-
-                    String Model = doc4.getElementsByClass("list-unstyled").first().select("li").get(1).text();
-                    System.out.println(Model);
+//                    String MainFoto = doc4.getElementsByClass("thumbnail pop").select("a").attr("abs:href");
+//
+//                    String Model = doc4.getElementsByClass("list-unstyled").first().select("li").get(1).text();
+//                    System.out.println(Model);
 
 /////////////////////////////////////////////////////////
                     try {
-                        Elements pictures = doc4.getElementsByClass("image-additional").select("a");
+                        Elements pictures = doc4.getElementsByClass("gallery__items").first().select("a");
 
                         int z = 0;
                         int y3 = 6;
@@ -155,28 +163,31 @@ public class opac {
 ///////////////////////////////////////////////////////////
 
 
-                    Cell cell227 = row.createCell(0);
-                    cell227.setCellValue(ID);
+                    Cell cell2279 = row.createCell(0);
+                    cell2279.setCellValue(dataID);
+
+                    Cell cell227 = row.createCell(1);
+                    cell227.setCellValue(NameProduct);
 
 
-                    Cell cell1 = row.createCell(1);
-                    cell1.setCellValue(Category);
+                    Cell cell1 = row.createCell(2);
+                    cell1.setCellValue(Tovar);
 
 
-                    Cell cell224 = row.createCell(2);
+                    Cell cell224 = row.createCell(3);
                     cell224.setCellValue(MainPrice);
 
-                    Cell cell2242 = row.createCell(3);
-                    cell2242.setCellValue(NamePrduct);
+                    Cell cell2242 = row.createCell(4);
+                    cell2242.setCellValue(Description);
 
-                    Cell cell22422 = row.createCell(4);
-                    cell22422.setCellValue(Proizvoditel);
+//                    Cell cell22422 = row.createCell(5);
+//                    cell22422.setCellValue(Proizvoditel);
 
-                    Cell cell224221 = row.createCell(5);
-                    cell224221.setCellValue(MainFoto);
-
-                    Cell cell2242211 = row.createCell(14);
-                    cell2242211.setCellValue(MainFoto);
+//                    Cell cell224221 = row.createCell(6);
+//                    cell224221.setCellValue(MainFoto);
+//
+//                    Cell cell2242211 = row.createCell(14);
+//                    cell2242211.setCellValue(MainFoto);
 
                 }catch (java.lang.IllegalArgumentException e){
                     e.printStackTrace();}

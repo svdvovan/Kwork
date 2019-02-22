@@ -18,13 +18,13 @@ import java.util.Iterator;
 public class bt_tv_ru {
     public static void main(String[] args) throws IOException {
 
-        String Tovar = "аудио_видео";
+        String Tovar = "инструменты для дома и сада";
 
-        String Path = "http://bt-tv.ru/televideoaudio-tehnika.html";
+        String Path = "http://bt-tv.ru/instrumenty-dlya-doma-i-sada.html";
 
 
         String CatalogName = Tovar;
-        int LastPage = 81;
+        int LastPage = 12;
         Workbook wb = new HSSFWorkbook();
         CreationHelper createHelper = wb.getCreationHelper();
         Sheet sheet1 = wb.createSheet(CatalogName);
