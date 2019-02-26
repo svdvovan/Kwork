@@ -27,7 +27,7 @@ public class oracdecor {
 
 
         String CatalogName = Tovar;
-        int LastPage = 1;
+        int LastPage = 12;
         Workbook wb = new HSSFWorkbook();
         CreationHelper createHelper = wb.getCreationHelper();
         Sheet sheet1 = wb.createSheet(CatalogName);
@@ -137,6 +137,10 @@ public class oracdecor {
 //                    String Model = doc4.getElementsByClass("list-unstyled").first().select("li").get(1).text();
 //                    System.out.println(Model);
 
+
+                                        String Description = doc4.getElementsByClass("item_i").text();
+                    System.out.println(Description);
+
 //////////////////////////////////////////////////////////
 
 
@@ -235,7 +239,10 @@ public class oracdecor {
 
                     Cell cell224221 = row.createCell(5);
                     cell224221.setCellValue(MainFoto);
-//
+
+                    Cell cell22422112 = row.createCell(6);
+                    cell22422112.setCellValue(Description);
+
 //                    Cell cell2242211 = row.createCell(14);
 //                    cell2242211.setCellValue(MainFoto);
 
