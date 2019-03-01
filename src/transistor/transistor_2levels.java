@@ -20,7 +20,8 @@ public class transistor_2levels {
 
         System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/transistor/transistor.crt.jks");
         //keytool -import -v -file S:/ProjectJava/Kwork/src/\transistor/crt.crt -keystore S:/ProjectJava/Kwork/src/\transistor/\transistor.crt.jks -storepass drowssap
-        String Tovar = "Блоки питания";
+        int tableNumber =1;
+                String Tovar = "Блоки питания"+tableNumber;
         String Manual_category = Tovar;
 
 
@@ -45,8 +46,8 @@ String Path ="https://transistor.ru/catalog/supply/";
 ////level Категория
             Document doc0 = Jsoup.connect(Path).get();
         int yCategory = 0;
-
-        Elements links0 = doc0.getElementsByTag("td");
+            Elements links0 = doc0.getElementsByTag("Table").get(tableNumber).select("a");
+//        Elements links0 = doc0.getElementsByClass("intermediate-catalog__group").get(tableNumber).select("td");
 
             for (Element link0 : links0) {
                 System.out.println();
@@ -55,7 +56,8 @@ String Path ="https://transistor.ru/catalog/supply/";
 
                     Document doc1 = Jsoup.connect(addressUrl0).get();
 
-                    Elements links3 = doc1.getElementsByClass("catalog-list__item-value name ");
+//                    Elements links3 = doc1.getElementsByClass("catalog-list__item-value name ");
+                Elements links3 = doc1.getElementsByClass("catalog-list__item-value name  more-width");
                     int yyy = 0;
 
                     for (Element link3 : links3) {
@@ -165,8 +167,6 @@ String Path ="https://transistor.ru/catalog/supply/";
                                     y3++;
                                     z++;
                                 }
-                            } catch (java.lang.IllegalArgumentException e) {
-                                e.printStackTrace();
                             } catch (java.lang.NullPointerException e) {
                                 e.printStackTrace();
                             }
@@ -187,9 +187,7 @@ String Path ="https://transistor.ru/catalog/supply/";
                             Cell cell2242 = row.createCell(3);
                             cell2242.setCellValue(NamePrduct);
 
-                        } catch (java.lang.IllegalArgumentException e) {
-                            e.printStackTrace();
-                        } catch (java.net.SocketTimeoutException e) {
+                        }  catch (java.net.SocketTimeoutException e) {
                             e.printStackTrace();
                         } catch (java.lang.IndexOutOfBoundsException e) {
                             e.printStackTrace();
@@ -219,8 +217,7 @@ String Path ="https://transistor.ru/catalog/supply/";
                     yCategory++;
 
             }
-        }catch (java.lang.IllegalArgumentException e) {
-            e.printStackTrace();
+
         } catch (java.net.SocketTimeoutException e) {
             e.printStackTrace();
         } catch (java.lang.IndexOutOfBoundsException e) {
