@@ -25,10 +25,10 @@ public class pramac_generator {
     public static void main(String[] args) throws IOException {
         System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2,SSLv3");
         System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/pramac_generator/pramac-generator_ru.crt.jks");
-        String Tovar = "Генераторы Pramac в кожухе";
+        String Tovar = "Контейнерные генераторы Pramac";
         String Manual_category =Tovar;
 
-        String Path2 = "https://www.pramac-generator.ru/catalog/dizelnye-elektrostancii/v-kozhuhe?per_page=200&page=1";
+        String Path2 = "https://www.pramac-generator.ru/catalog/dizelnye-elektrostancii/kontejnernye?per_page=200&page=1";
 
         String CatalogName = Tovar;
         Workbook wb = new HSSFWorkbook();
@@ -64,12 +64,12 @@ public class pramac_generator {
 
             try {
                 Document doc4 = Jsoup.connect(addressUrl3)
-//                            .proxy("201.174.52.27", 49229)
-                        .timeout(50000)
-                        .ignoreHttpErrors(true)
-                        .ignoreContentType(true)
-                        .followRedirects(true)
-                        .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.38 Safari/537.36")
+////                            .proxy("201.174.52.27", 49229)
+//                        .timeout(50000)
+//                        .ignoreHttpErrors(true)
+//                        .ignoreContentType(true)
+//                        .followRedirects(true)
+//                        .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.38 Safari/537.36")
                         .get();
 
                 int rowCount = sheet.getLastRowNum();
@@ -83,24 +83,62 @@ public class pramac_generator {
                 String MainPrice = doc4.getElementsByClass("price").select("span").first().text();
                 System.out.println(MainPrice);
 
-                String Specifica1 = doc4.getElementsByClass("b-pdf").select("a").attr("href");
-                String Specifica = "https://www.pramac-generator.ru"+Specifica1;
-                System.out.println(Specifica);
 
-                File f = new File(Specifica);
+
+                try {
+                    Elements Specifica1 = doc4.getElementsByClass("b-pdf").select("a");
+                    int SpecCol = 0;
+                    int SpecYach = 5;
+                    for (Element Specifica1s : Specifica1) {
+                        System.out.println("https://www.pramac-generator.ru"+Specifica1.get(SpecCol).select("a").attr("href"));
+
+                        String Specifica = "https://www.pramac-generator.ru" + Specifica1.get(SpecCol).select("a").attr("href");
+                        Cell cell5555ss = row.createCell(SpecYach);
+                        cell5555ss.setCellValue(Specifica);
+
+
+                    File f = new File(Specifica);
                 String FILENAME = "S:/ProjectJava/Kwork/specifica/"+f.getName();;
                 String SvDPDFURL = Specifica ;
                 File file = new File(FILENAME);
                 URL url = new URL(SvDPDFURL);
                 FileUtils.copyURLToFile(url, file);
 
+
+                        SpecYach++;
+                        SpecCol++;
+                    }
+
+
+                } catch (java.lang.NullPointerException e) {
+                    e.printStackTrace();
+                }
+
+
+//                String Specifica1 = doc4.getElementsByClass("b-pdf").select("a").attr("href");
+//                String Specifica = "https://www.pramac-generator.ru"+Specifica1;
+//                System.out.println(Specifica);
+//
+//                File f = new File(Specifica);
+//                String FILENAME = "S:/ProjectJava/Kwork/specifica/"+f.getName();;
+//                String SvDPDFURL = Specifica ;
+//                File file = new File(FILENAME);
+//                URL url = new URL(SvDPDFURL);
+//                FileUtils.copyURLToFile(url, file);
+
+
+
+
 ///////////////////////////
+
+
+
 
                 Elements table = doc4.getElementsByClass("specification box").select("table");
                 Iterator<Element> ite = table.select("td").iterator();
                 Elements row2 = table.select("td");
 
-                int y2 = 7;
+                int y2 = 8;
 
                 for (Element rows : row2) {
 
@@ -181,8 +219,8 @@ public class pramac_generator {
                 cell2242.setCellValue(Description);
 
 
-                Cell cell2242x = row.createCell(5);
-                cell2242x.setCellValue(Specifica);
+//                Cell cell2242x = row.createCell(5);
+//                cell2242x.setCellValue(Specifica);
 
 
             }catch (java.lang.IllegalArgumentException e){
