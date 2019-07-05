@@ -1,5 +1,6 @@
 package pramac_generator;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.jsoup.Jsoup;
@@ -7,10 +8,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Iterator;
+
 
 /**
  * Created by SretenskyVD on 05.07.2019.
@@ -21,10 +25,10 @@ public class pramac_generator {
     public static void main(String[] args) throws IOException {
         System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2,SSLv3");
         System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/pramac_generator/pramac-generator_ru.crt.jks");
-        String Tovar = "Газовые генераторы";
+        String Tovar = "Генераторы Pramac в кожухе";
         String Manual_category =Tovar;
 
-        String Path2 = "https://www.pramac-generator.ru/catalog/gazovye-elektrostancii?per_page=100&page=1";
+        String Path2 = "https://www.pramac-generator.ru/catalog/dizelnye-elektrostancii/v-kozhuhe?per_page=200&page=1";
 
         String CatalogName = Tovar;
         Workbook wb = new HSSFWorkbook();
@@ -80,11 +84,15 @@ public class pramac_generator {
                 System.out.println(MainPrice);
 
                 String Specifica1 = doc4.getElementsByClass("b-pdf").select("a").attr("href");
-                String Specifica = "https://www.pramac-generator.ru/"+Specifica1;
+                String Specifica = "https://www.pramac-generator.ru"+Specifica1;
                 System.out.println(Specifica);
 
-
-
+                File f = new File(Specifica);
+                String FILENAME = "S:/ProjectJava/Kwork/specifica/"+f.getName();;
+                String SvDPDFURL = Specifica ;
+                File file = new File(FILENAME);
+                URL url = new URL(SvDPDFURL);
+                FileUtils.copyURLToFile(url, file);
 
 ///////////////////////////
 
