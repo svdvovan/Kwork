@@ -25,10 +25,10 @@ public class pramac_generator {
     public static void main(String[] args) throws IOException {
         System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2,SSLv3");
         System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/pramac_generator/pramac-generator_ru.crt.jks");
-        String Tovar = "Контейнерные генераторы Pramac";
+        String Tovar = "Сварочные генераторы Pramac";
         String Manual_category =Tovar;
 
-        String Path2 = "https://www.pramac-generator.ru/catalog/dizelnye-elektrostancii/kontejnernye?per_page=200&page=1";
+        String Path2 = "https://www.pramac-generator.ru/catalog/svarochnye-elektrostancii/";
 
         String CatalogName = Tovar;
         Workbook wb = new HSSFWorkbook();
