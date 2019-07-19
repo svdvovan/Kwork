@@ -21,11 +21,11 @@ public class transistor_2levels {
         System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/transistor/transistor.crt.jks");
         //keytool -import -v -file S:/ProjectJava/Kwork/src/\transistor/crt.crt -keystore S:/ProjectJava/Kwork/src/\transistor/\transistor.crt.jks -storepass drowssap
         int tableNumber =1;
-                String Tovar = "Блоки питания"+tableNumber;
+                String Tovar = "Рекламные материалы"+tableNumber;
         String Manual_category = Tovar;
 
 
-String Path ="https://transistor.ru/catalog/supply/";
+String Path ="https://transistor.ru/catalog/promotional/";
 
         String CatalogName = Tovar;
         Workbook wb = new HSSFWorkbook();

@@ -1,4 +1,4 @@
-package transistor;
+package unikma;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -13,18 +13,17 @@ import java.io.IOException;
 import java.util.Iterator;
 
 /**
- * Created by SretenskyVD on 01.03.2019.
+ * Created by SretenskyVD on 02.04.2019.
  */
-public class transistor {
+public class unikma {
     public static void main(String[] args) throws IOException {
-        System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/transistor/transistor.crt.jks");
-//keytool -import -v -file S:/ProjectJava/Kwork/src/\transistor/crt.crt -keystore S:/ProjectJava/Kwork/src/\transistor/\transistor.crt.jks -storepass drowssap
-        String Tovar = "алюмПрофильстр2";
+        System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/unikma/unikmaru.crt.jks");
+        String Tovar = "Заборы из сварных панелей";
         String Manual_category =Tovar;
-//        String Manual_Proizvoditel = "Orac Decor";
+//        String Manual_Proizvoditel = "Цветомания";
 
-        String Path = "https://transistor.ru/catalog/profile/56/?PAGEN_1=2/";
-
+        String Path = "https://unikma.ru/catalog/zabory_iz_svarnykh_paneley/?PAGEN_2=";
+//keytool -import -v -file S:/ProjectJava/Kwork/src/unikma/unikmaru.crt -keystore S:/ProjectJava/Kwork/src/unikma/unikmaru.crt.jks -storepass drowssap
 
         String CatalogName = Tovar;
         int LastPage = 1;
@@ -44,32 +43,29 @@ public class transistor {
         }
         Sheet sheet = wb.getSheetAt(0);
 
-        //  int Page = 12;
+        //  int Page = 59;
         int Page = 1;
         for (int count = 1; count <= LastPage; count++) {
-//            String  Path2 = Path+ "?PAGEN_1=" + Page;
-//            String  Path2 = Path+ "?PAGEN_1=" + Page;
-            String  Path2 = Path;
-//
+           String  Path2 = Path+ Page;
+//            String  Path2 = Path;
+
 
 
             Document doc1 = Jsoup.connect(Path2).get();
-            Elements links3 = doc1.getElementsByClass("catalog-list__item-value name  more-width");
-//            Elements links3 = doc1.getElementsByClass("catalog-list__item-value name ");
-            int yyy = 0;
 
+            Elements links3 = doc1.getElementsByClass("elem");
+            int yyy = 0;
             for (Element link3 : links3) {
 
-                String ID = doc1.getElementsByClass("catalog-list__item-value articul").get(yyy).text();
-                System.out.println(ID);
+//                String dataID = doc1.getElementsByClass("button-text catalog__button\n" +
+//                        "\t\t\t\t\tcatalog__button-price addToBasket").get(yyy).attr("data-id");
+//                System.out.println(dataID);
 
-                String MainPrice = doc1.getElementsByClass("catalog-list__item-value price").get(yyy).text();
+//                String NameProduct = doc1.getElementsByClass("catalog__name").get(yyy).text();
+//                System.out.println(NameProduct);
+//
+                String MainPrice = doc1.getElementsByClass("fs16").get(yyy).text();
                 System.out.println(MainPrice);
-
-                String Category = doc1.getElementsByClass("buttons-crumbs").select("span").last().text();
-                System.out.println(Category);
-
-
 
                 System.out.println();
                 String addressUrl3 = (links3.get(yyy).select("a[href]").attr("abs:href"));
@@ -91,21 +87,37 @@ public class transistor {
 
 
 
-                    String NamePrduct =   doc4.getElementsByClass("catalog-cart__h3").get(1).text();
+
+//                    String Category = doc4.getElementsByClass("active").select("span").first().text();
+//);
+                    String Category = Manual_category;
+                    System.out.println(Category);
+
+
+                    String NamePrduct =   doc4.getElementsByClass("al-title title").text();
                     System.out.println(NamePrduct);
 
+
+
+//                    String Proizvoditel =   doc4.getElementsByTag("a").select("[target=_blank]").first().text();
+                    //     String Proizvoditel = Manual_Proizvoditel;
+//                    String Proizvoditel  = doc4.getElementsByClass("list-unstyled").first().select("li").get(0).text();
+//                    System.out.println(Proizvoditel);
+
+                    String Description  = doc4.getElementsByTag("p").first().text();
+                    System.out.println(Description);
 
 
                     int rowCount = sheet.getLastRowNum();
                     Row row = sheet.createRow(++rowCount);
 
 
-                    Elements table = doc4.getElementsByClass("catalog-cart__tabs__content-section active-tab");
-                    Iterator<Element> ite = table.select("div").iterator();
+                    Elements table = doc4.getElementsByClass("proptogh proptog col1");
+                    Iterator<Element> ite = table.select("td").iterator();
 
-                    Elements row2 = table.select("div");
+                    Elements row2 = table.select("td");
 
-                    int y2 = 15;
+                    int y2 = 25;
 
                     for (Element rows : row2) {
 
@@ -123,62 +135,23 @@ public class transistor {
 
                     }
 
-
-//////////////////////////////////////////////////////////
-
-                    try {
-                        Elements chars = doc4.getElementsByClass("chars").select("li");
-
-                        int z = 0;
-                        int y3 = 16;
-                        int y4 =17;
-                        for (Element charses : chars) {
-
-
-                            String ATTRIBUTE = chars.get(z).select("p").first().text();
-                            String ATTRIBUTE2 = chars.get(z).select("p").get(1).text();
-
-                            System.out.println(ATTRIBUTE + " " +ATTRIBUTE2);
-
-
-                            Cell cell5555 = row.createCell(y3);
-                            Cell cell6666 = row.createCell(y4);
-
-
-                            cell5555.setCellValue(ATTRIBUTE);
-                            cell6666.setCellValue(ATTRIBUTE2);
-                            y3=y3+2;
-                            y4=y4+2;
-
-                            z++;
-                        }
-                    }
-                    catch (java.lang.NullPointerException e){
-                        e.printStackTrace();
-                    }
-
-
-
-
-
-
-
-
-
-
-
-
+///////////////////////////////////
+//                    String MainFoto = doc4.getElementsByClass("thumbnail pop").select("a").attr("abs:href");
+//
+//                    String Model = doc4.getElementsByClass("list-unstyled").first().select("li").get(1).text();
+//                    System.out.println(Model);
 
 /////////////////////////////////////////////////////////
                     try {
-                        Elements pictures = doc4.getElementsByClass("catalog-cart__content-big-images").select("a");
+                        Elements pictures = doc4.getElementsByClass("pgwSlideshow").select("li");
 
                         int z = 0;
-                        int y3 = 6;
+  //                      int y3 = 6;
+                        int y3 = 75;
                         for (Element picture : pictures) {
-                            System.out.println(pictures.get(z).select("a").attr("abs:href"));
+                            System.out.println(pictures.get(z).select("img").attr("src"));
 
-                            String Foto = pictures.get(z).select("a").attr("abs:href");
+                            String Foto = "https://unikma.ru" + pictures.get(z).select("img").attr("src");
                             Cell cell5555 = row.createCell(y3);
                             cell5555.setCellValue(Foto);
                             y3++;
@@ -190,30 +163,30 @@ public class transistor {
                     }
 ///////////////////////////////////////////////////////////
 
+//
+//                    Cell cell2279 = row.createCell(0);
+//                    cell2279.setCellValue(dataID);
 
-                    Cell cell227 = row.createCell(0);
-                    cell227.setCellValue(ID);
+                    Cell cell227 = row.createCell(1);
+                    cell227.setCellValue(NamePrduct);
 
 
-                    Cell cell1 = row.createCell(1);
-                    cell1.setCellValue(Category);
+                    Cell cell1 = row.createCell(2);
+                    cell1.setCellValue(Tovar);
 
 
-                    Cell cell224 = row.createCell(2);
+                    Cell cell224 = row.createCell(3);
                     cell224.setCellValue(MainPrice);
 
-                    Cell cell2242 = row.createCell(3);
-                    cell2242.setCellValue(NamePrduct);
+                    Cell cell2242 = row.createCell(4);
+                    cell2242.setCellValue(Description);
 
-//                    Cell cell22422 = row.createCell(4);
+//                    Cell cell22422 = row.createCell(5);
 //                    cell22422.setCellValue(Proizvoditel);
 
-//                    Cell cell224221 = row.createCell(5);
+//                    Cell cell224221 = row.createCell(6);
 //                    cell224221.setCellValue(MainFoto);
 //
-//                    Cell cell22422112 = row.createCell(15);
-//                    cell22422112.setCellValue(Description);
-
 //                    Cell cell2242211 = row.createCell(14);
 //                    cell2242211.setCellValue(MainFoto);
 
@@ -233,7 +206,6 @@ public class transistor {
 
                 System.out.println();
                 yyy++;
-
 
 
 
