@@ -24,13 +24,13 @@ public class ua {
     public static void main(String[] args) throws IOException {
         System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2,SSLv3");
         System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/nailsmania_ua/nailsmania/nailsmania_ua.crt.jks");
-        String Tovar = "Волосы";
+        String Tovar = "Наборы гель-лаков";
         String Manual_category = Tovar;
 
-        String Path = "https://nailsmania.ua/vse-dlya-volos";
+        String Path = "https://nailsmania.ua/nabory-gel-lakov";
 
         String CatalogName = Tovar;
-        int LastPage = 75;
+        int LastPage = 8;
         Workbook wb = new HSSFWorkbook();
         CreationHelper createHelper = wb.getCreationHelper();
         Sheet sheet1 = wb.createSheet(CatalogName);

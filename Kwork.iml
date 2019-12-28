@@ -10,5 +10,8 @@
     <orderEntry type="library" name="commons-io-2.6" level="project" />
     <orderEntry type="library" name="apache-poi-3-17" level="project" />
     <orderEntry type="library" name="jsoup" level="project" />
+    <orderEntry type="library" name="xmlbeans-3.1.0" level="project" />
+    <orderEntry type="library" name="jaxen-1.1-beta-2" level="project" />
+    <orderEntry type="library" name="selenide-5.5.1" level="project" />
   </component>
 </module>

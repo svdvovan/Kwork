@@ -18,12 +18,12 @@ public class roscement {
 
     public static void main(String[] args) throws IOException {
         System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/roscement/roscement_ru.crt.jks");
-        String Tovar = "сухие смеси";
+        String Tovar = "смеси для пола";
         String Manual_category =Tovar;
 //        String Manual_Proizvoditel = "Цветомания";
 
 //        String Path = "https://unikma.ru/catalog/zabory_iz_svarnykh_paneley/?PAGEN_2=";
-        String Path = "https://roscement.ru/suhie-smesi/";
+        String Path = "https://roscement.ru/smesi-dlja-pola/?items_per_page=64";
 //keytool -import -v -file S:/ProjectJava/Kwork/src/roscement/roscement_ru.crt -keystore S:/ProjectJava/Kwork/src/roscement/roscement_ru.crt.jks -storepass drowssap
 
         String CatalogName = Tovar;

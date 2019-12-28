@@ -1,4 +1,4 @@
-package medfarma;
+package quarta_hunt;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -7,27 +7,28 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import javax.management.Descriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
 /**
- * Created by SretenskyVD on 04.10.2019.
+ * Created by SretenskyVD on 22.10.2019.
  */
-public class medfarma {
+public class quarta_hunt {
       public static void main(String[] args) throws IOException {
-//        System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/bestdigitals/bestdigitals_ru.crt.jks");
-        String Tovar = "Новинки";
+        System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/quarta_hunt/quarta-hunt_ru.crt.jks");
+        String Tovar = "Средства для чистки и смазки оружия";
         String Manual_category =Tovar;
 //        String Manual_Proizvoditel = "Цветомания";
 
 //        String Path = "https://unikma.ru/catalog/zabory_iz_svarnykh_paneley/?PAGEN_2=";
-        String Path = "http://xn--80aakd8ad1a4a.xn--p1ai/Novinki.html";
-//keytool -import -v -file S:/ProjectJava/Kwork/src/bestdigitals/bestdigitals_ru.crt -keystore S:/ProjectJava/Kwork/src/bestdigitals/bestdigitals_ru.crt.jks -storepass drowssap
+        String Path = "https://quarta-hunt.ru/catalog/sredstva-dlya-chistki-i-smazki-oruzhiya/";
+//keytool -import -v -file S:/ProjectJava/Kwork/src/quarta_hunt/quarta-hunt_ru.crt -keystore S:/ProjectJava/Kwork/src/quarta_hunt/quarta-hunt_ru.crt.jks -storepass drowssap
 
         String CatalogName = Tovar;
-        int LastPage = 1;
+        int LastPage = 41;
         Workbook wb = new HSSFWorkbook();
 //    XSSFWorkbook wb = new XSSFWorkbook();
         CreationHelper createHelper = wb.getCreationHelper();
@@ -46,16 +47,16 @@ public class medfarma {
         Sheet sheet = wb.getSheetAt(0);
 
         //  int Page = 59;
-//    int Page = 1;
-//    for (int count = 1; count <= LastPage; count++) {
-//        String  Path2 = Path+ Page;
-        String  Path2 = Path;
+    int Page = 1;
+    for (int count = 1; count <= LastPage; count++) {
+        String  Path2 = Path+"?PAGEN_1="+ Page;
+//        String  Path2 = Path;
 
 
 
         Document doc1 = Jsoup.connect(Path2).get();
 
-        Elements links3 = doc1.getElementsByClass("block-good-name");
+        Elements links3 = doc1.getElementsByClass("catalog-item-title");
         int yyy = 0;
         for (Element link3 : links3) {
 
@@ -69,7 +70,6 @@ public class medfarma {
 //            String MainPrice = doc1.getElementsByClass("fs16").get(yyy).text();
 //            System.out.println(MainPrice);
 
-
             System.out.println();
             String addressUrl3 = (links3.get(yyy).select("a[href]").attr("abs:href"));
             System.out.println(addressUrl3);
@@ -80,8 +80,8 @@ public class medfarma {
 
             try {
                 Document doc4 = Jsoup.connect(addressUrl3)
-//                            .proxy("201.174.52.27", 49229)
-                        .timeout(50000)
+                            .proxy("34.95.167.51", 8080)
+                        .timeout(20000)
                         .ignoreHttpErrors(true)
                         .ignoreContentType(true)
                         .followRedirects(true)
@@ -96,11 +96,11 @@ public class medfarma {
                 String Category = Manual_category;
                 System.out.println(Category);
 
-                String MainPrice = doc4.getElementsByClass("price-wrap coll ").text();
+                String MainPrice = doc4.getElementsByClass("product-price").text();
                 System.out.println(MainPrice);
 
 
-                String NamePrduct =   doc4.getElementsByClass("good_name").text();
+                String NamePrduct =   doc4.getElementsByTag("h1").text();
                 System.out.println(NamePrduct);
 
 
@@ -110,19 +110,24 @@ public class medfarma {
 //                    String Proizvoditel  = doc4.getElementsByClass("list-unstyled").first().select("li").get(0).text();
 //                    System.out.println(Proizvoditel);
 
-                String SKU  = doc4.getElementsByClass("good_art").text();
+                String SKU  = doc4.getElementsByClass("product-num").text();
                 System.out.println(SKU);
 
-                String Description  = doc4.getElementsByClass("good_desc").text();
+                String Description  = doc4.getElementsByClass("tab-content").html();
                 System.out.println(Description);
 
-                String Description2  = doc4.getElementsByClass("good_desc").html();
-                System.out.println(Description2);
+                String Description_text  = doc4.getElementsByClass("tab-content").text();
+                System.out.println(Description_text);
+
+                String breadcrumbs  = doc4.getElementsByClass("breadcrumbs").select("a").text();
+                System.out.println(breadcrumbs);
+
+                String breadcrumbs_last  = doc4.getElementsByClass("breadcrumbs").select("a").last().text();
+                System.out.println(breadcrumbs_last);
 
                 int rowCount = sheet.getLastRowNum();
                 Row row = sheet.createRow(++rowCount);
 
-                String Table = doc4.getElementsByClass("d_price_list").html();
 
                 Cell cell227p = row.createCell(0);
                 cell227p.setCellValue(SKU);
@@ -138,39 +143,64 @@ public class medfarma {
                 Cell cell224 = row.createCell(3);
                 cell224.setCellValue(MainPrice);
 
+                Cell cell22411 = row.createCell(4);
+                cell22411.setCellValue(breadcrumbs);
 
-//                Elements table = doc4.getElementsByClass("proptogh proptog col1");
-//                Iterator<Element> ite = table.select("td").iterator();
-//
-//                Elements row2 = table.select("td");
-//
-//                int y2 = 25;
-//
-//                for (Element rows : row2) {
-//
-//                    String Har = ite.next().text();
-//
-//                    System.out.print(Har);
-//
-//
-//                    Cell cell1000 = row.createCell(y2);
-//                    cell1000.setCellValue(Har);
-//
-//
-//
-//                    y2++;
-//
-//                }
+                Cell cell224111 = row.createCell(5);
+                cell224111.setCellValue(breadcrumbs_last);
+
+//////////////////////////////////////////
+
+                Elements table = doc4.getElementsByClass("description-table-small");
+                Iterator<Element> ite = table.select("th").iterator();
+
+                Elements row2 = table.select("tr");
+
+                int y2 = 25;
+
+                for (Element rows : row2) {
+
+                    String Har = ite.next().text();
+
+                    System.out.print(Har);
 
 
-
+                    Cell cell1000 = row.createCell(y2);
+                    cell1000.setCellValue(Har);
 
 
 
+                    y2=y2+2;
+
+                }
+
+                Elements table1 = doc4.getElementsByClass("description-table-small");
+                Iterator<Element> ite1 = table1.select("td").iterator();
+
+                Elements row222 = table1.select("td");
+
+                int y222 = 26;
+
+                for (Element rows222 : row222) {
+
+                    String Har1 = ite1.next().text();
+
+                    System.out.print(Har1);
 
 
-                try {
-                    Elements pictures = doc4.getElementsByClass("good_th").select("a");
+                    Cell cell1000 = row.createCell(y222);
+                    cell1000.setCellValue(Har1);
+
+
+
+                    y222=y222+2;
+
+                }
+
+ ////////////////////////////////////////////////////////
+
+      try {
+                    Elements pictures = doc4.getElementsByClass("product-gallery").select("a");
 
                     int z = 0;
                     //                      int y3 = 6;
@@ -191,7 +221,7 @@ public class medfarma {
 //                        FileUtils.copyURLToFile(url, file);
 
                         Cell cell5555 = row.createCell(y3);
-                        cell5555.setCellValue("http://xn--80aakd8ad1a4a.xn--p1ai"+Foto);
+                        cell5555.setCellValue("https://quarta-hunt.ru/"+Foto);
                         y3++;
 
 
@@ -200,30 +230,6 @@ public class medfarma {
                 }
                 catch (java.lang.NullPointerException e){
                     e.printStackTrace();
-                }
-/////////////////////////////////////////////////////////////
-
-                Elements table = doc4.getElementsByClass("d_price_list");
-                Iterator<Element> ite = table.select("td").iterator();
-
-                Elements row2 = table.select("td");
-
-                int y2 = 25;
-
-                for (Element rows : row2) {
-
-                    String Har = ite.next().text();
-
-                    System.out.print(Har);
-
-
-                    Cell cell1000 = row.createCell(y2);
-                    cell1000.setCellValue(Har);
-
-
-
-                    y2++;
-
                 }
 
 
@@ -260,13 +266,12 @@ public class medfarma {
 //                catch (java.lang.NullPointerException e){
 //                    e.printStackTrace();
 //                }
-//
-//
-//
+
+
+
 
 ///////////////////////////////////
-                    String MainFoto = doc4.getElementsByClass("main_img").select("a").attr("abs:href");
-                System.out.println(MainFoto);
+//                    String MainFoto = doc4.getElementsByClass("thumbnail pop").select("a").attr("abs:href");
 //
 //                    String Model = doc4.getElementsByClass("list-unstyled").first().select("li").get(1).text();
 //                    System.out.println(Model);
@@ -316,20 +321,17 @@ public class medfarma {
 //                Cell cell224 = row.createCell(3);
 //                cell224.setCellValue(MainPrice);
 
-                Cell cell2242 = row.createCell(4);
+                Cell cell2242 = row.createCell(22);
                 cell2242.setCellValue(Description);
 
-                Cell cell2242qq = row.createCell(23);
-                cell2242qq.setCellValue(Table);
-
-                Cell cell2242qq1 = row.createCell(22);
-                cell2242qq1.setCellValue(Description2);
+                Cell cell224222 = row.createCell(23);
+                cell224222.setCellValue(Description_text);
 
 //                    Cell cell22422 = row.createCell(5);
 //                    cell22422.setCellValue(Proizvoditel);
 
-                    Cell cell224221 = row.createCell(5);
-                    cell224221.setCellValue(MainFoto);
+//                    Cell cell224221 = row.createCell(6);
+//                    cell224221.setCellValue(MainFoto);
 //
 //                    Cell cell2242211 = row.createCell(14);
 //                    cell2242211.setCellValue(MainFoto);
@@ -366,13 +368,10 @@ public class medfarma {
             }
 
 
-//        }
-//        System.out.println(Page);
-//        Page++;
+        }
+        System.out.println(Page);
+        Page++;
         }
 
     }
-
-    }
-
-
+}

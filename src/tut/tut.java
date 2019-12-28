@@ -1,4 +1,4 @@
-package unikma;
+package tut;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -16,21 +16,27 @@ import java.net.URL;
 import java.util.Iterator;
 
 /**
- * Created by SretenskyVD on 02.04.2019.
+ * Created by SretenskyVD on 03.09.2019.
  */
-public class unikma {
+public class tut {
     public static void main(String[] args) throws IOException {
-        System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/unikma/unikmaru.crt.jks");
-        String Tovar = "Заборы_из_сварных_панелей";
+        System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/tut/tut_ru.crt.jks");
+        String Tovar = "Эхолоты_и_картплоттеры";
         String Manual_category =Tovar;
+        String MyProxy = "200.240.244.7";
+        int MyPort = 8080;
 //        String Manual_Proizvoditel = "Цветомания";
-
+    //    String MyUserAgent=  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.38 Safari/537.36"
+        String MyUserAgent1= "Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 5.0; Trident/4.0; InfoPath.1; SV1; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 3.0.04506.30)";
+        String MyUserAgent2= "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36)";
 //        String Path = "https://unikma.ru/catalog/zabory_iz_svarnykh_paneley/?PAGEN_2=";
-        String Path = "https://unikma.ru/catalog/zabory_iz_svarnykh_paneley/?PAGEN_2=";
-//keytool -import -v -file S:/ProjectJava/Kwork/src/unikma/unikmaru.crt -keystore S:/ProjectJava/Kwork/src/unikma/unikmaru.crt.jks -storepass drowssap
+
+        String Path = "https://tut.ru/catalog/fishing/ekholoty_i_kartplottery/";
+
+//keytool -import -v -file S:/ProjectJava/Kwork/src/tut/tut_ru.crt -keystore S:/ProjectJava/Kwork/src/tut/tut_ru.crt.jks -storepass drowssap
 
         String CatalogName = Tovar;
-        int LastPage = 1;
+        int LastPage = 6;
         Workbook wb = new HSSFWorkbook();
         CreationHelper createHelper = wb.getCreationHelper();
         Sheet sheet1 = wb.createSheet(CatalogName);
@@ -49,47 +55,61 @@ public class unikma {
 
         //  int Page = 59;
         int Page = 1;
+//        int CountPage = (Page+LastPage)-1;
         for (int count = 1; count <= LastPage; count++) {
-           String  Path2 = Path+ Page;
+            String  Path2 = Path+"?PAGEN_1="+ Page;
 //            String  Path2 = Path;
 
+            int RandomTime3 = (int) (Math.random() * ((30000 -7000 ) + 1)) + 7000;
+
+//          Document doc1 = Jsoup.connect(Path2).get();
+            Document doc1 = Jsoup.connect(Path2)
+  //          .proxy(MyProxy, MyPort)
+                    .timeout(RandomTime3)
+                    .ignoreHttpErrors(true)
+                    .ignoreContentType(true)
+                    .followRedirects(true)
+                    .userAgent(MyUserAgent2)
+                    .get();
 
 
-            Document doc1 = Jsoup.connect(Path2).get();
 
-            Elements links3 = doc1.getElementsByClass("elem");
+            Elements links3 = doc1.getElementsByClass("item-title secEl_title");
             int yyy = 0;
             for (Element link3 : links3) {
 
-//                String dataID = doc1.getElementsByClass("button-text catalog__button\n" +
-//                        "\t\t\t\t\tcatalog__button-price addToBasket").get(yyy).attr("data-id");
-//                System.out.println(dataID);
+
 
 //                String NameProduct = doc1.getElementsByClass("catalog__name").get(yyy).text();
 //                System.out.println(NameProduct);
 //
-                String MainPrice = doc1.getElementsByClass("fs16").get(yyy).text();
-                System.out.println(MainPrice);
 
                 System.out.println();
                 String addressUrl3 = (links3.get(yyy).select("a[href]").attr("abs:href"));
                 System.out.println(addressUrl3);
 
-
+                int RandomTime = (int) (Math.random() * ((30000 -7000 ) + 1)) + 7000;
 
 
 
                 try {
+      //              Document doc4 = Jsoup.connect(addressUrl3).get();
                     Document doc4 = Jsoup.connect(addressUrl3)
-//                            .proxy("201.174.52.27", 49229)
-                            .timeout(50000)
+    //                        .proxy(MyProxy, MyPort)
+                            .timeout(RandomTime)
                             .ignoreHttpErrors(true)
                             .ignoreContentType(true)
                             .followRedirects(true)
-                            .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.38 Safari/537.36")
+                            .userAgent(MyUserAgent2)
                             .get();
 
+//                    String dataID = doc1.getElementsByClass("wish_item to").get(yyy).attr("data-item");
+                    String dataID = doc4.getElementsByClass("detail_page_article").text();
+                    System.out.println(dataID);
 
+//                    String MainPrice = doc1.getElementsByClass("price_value").get(yyy).text();
+                    String MainPrice = doc1.getElementsByClass("cost prices clearfix").get(yyy).text();
+                    System.out.println(MainPrice);
 
 
 //                    String Category = doc4.getElementsByClass("active").select("span").first().text();
@@ -98,7 +118,7 @@ public class unikma {
                     System.out.println(Category);
 
 
-                    String NamePrduct =   doc4.getElementsByClass("al-title title").text();
+                    String NamePrduct =   doc4.getElementsByTag("h1").text();
                     System.out.println(NamePrduct);
 
 
@@ -108,15 +128,21 @@ public class unikma {
 //                    String Proizvoditel  = doc4.getElementsByClass("list-unstyled").first().select("li").get(0).text();
 //                    System.out.println(Proizvoditel);
 
-                    String Description  = doc4.getElementsByTag("p").first().text();
+                    String Description  = doc4.getElementsByClass("detail_text").html();
                     System.out.println(Description);
+
+                    String AllSub =   doc4.getElementsByTag("meta").select("[itemprop=category]").attr("content");
+                    System.out.println(AllSub);
+
+                    String SubCategory  = doc4.getElementsByClass("menu-item active").text();
+                    System.out.println(SubCategory);
 
 
                     int rowCount = sheet.getLastRowNum();
                     Row row = sheet.createRow(++rowCount);
 
 
-                    Elements table = doc4.getElementsByClass("proptogh proptog col1");
+                    Elements table = doc4.getElementsByClass("props_list");
                     Iterator<Element> ite = table.select("td").iterator();
 
                     Elements row2 = table.select("td");
@@ -140,30 +166,31 @@ public class unikma {
                     }
 
 ///////////////////////////////////
-//                    String MainFoto = doc4.getElementsByClass("thumbnail pop").select("a").attr("abs:href");
+                    String SuperMainFoto = doc4.getElementsByClass("current").first().select("a").attr("abs:href");
+                    System.out.println(SuperMainFoto);
 //
 //                    String Model = doc4.getElementsByClass("list-unstyled").first().select("li").get(1).text();
 //                    System.out.println(Model);
 
 /////////////////////////////////////////////////////////
                     try {
-                        Elements pictures = doc4.getElementsByClass("pgwSlideshow").select("li");
+                        Elements pictures = doc4.getElementsByClass("slides_block").select("li");
 
                         int z = 0;
-  //                      int y3 = 6;
-                        int y3 = 75;
+                        //                      int y3 = 6;
+                        int y3 = 6;
                         for (Element picture : pictures) {
-                            System.out.println(pictures.get(z).select("img").attr("src"));
-                            String Foto = "https://unikma.ru" + pictures.get(z).select("img").attr("src");
-                            File f = new File(Foto);
-                            String FILENAME = "test/unikma/"  + CatalogName + "/" + f.getName();
-                            String SvDPDFURL = Foto;
-                            File file = new File(FILENAME);
-                            URL url = new URL(SvDPDFURL);
-                            FileUtils.copyURLToFile(url, file);
+                            System.out.println(pictures.get(z).select("li").attr("data-big_img"));
+                            String Foto = "https://tut.ru" + pictures.get(z).select("li").attr("data-big_img");
+//                            File f = new File(Foto);
+//                            String FILENAME = "test/unikma/"  + CatalogName + "/" + f.getName();
+//                            String SvDPDFURL = Foto;
+//                            File file = new File(FILENAME);
+//                            URL url = new URL(SvDPDFURL);
+//                            FileUtils.copyURLToFile(url, file);
 
                             Cell cell5555 = row.createCell(y3);
-                            cell5555.setCellValue("http://educ.svdprow6.beget.tech/"+FILENAME);
+                            cell5555.setCellValue(Foto);
                             y3++;
 
 
@@ -176,8 +203,8 @@ public class unikma {
 ///////////////////////////////////////////////////////////
 
 //
-//                    Cell cell2279 = row.createCell(0);
-//                    cell2279.setCellValue(dataID);
+                    Cell cell2279 = row.createCell(0);
+                    cell2279.setCellValue(dataID);
 
                     Cell cell227 = row.createCell(1);
                     cell227.setCellValue(NamePrduct);
@@ -186,12 +213,22 @@ public class unikma {
                     Cell cell1 = row.createCell(2);
                     cell1.setCellValue(Tovar);
 
+                    Cell cell1e = row.createCell(3);
+                    cell1e.setCellValue(SubCategory);
 
-                    Cell cell224 = row.createCell(3);
+//
+                    Cell cell224 = row.createCell(4);
                     cell224.setCellValue(MainPrice);
 
-                    Cell cell2242 = row.createCell(4);
+                    Cell cell2242 = row.createCell(5);
                     cell2242.setCellValue(Description);
+
+
+                    Cell cell224211 = row.createCell(6);
+                    cell224211.setCellValue(AllSub);
+
+                    Cell cell224211y = row.createCell(7);
+                    cell224211y.setCellValue(SuperMainFoto);
 
 //                    Cell cell22422 = row.createCell(5);
 //                    cell22422.setCellValue(Proizvoditel);
@@ -222,6 +259,7 @@ public class unikma {
 
 
                 try {
+//                    FileOutputStream fileOut1 = new FileOutputStream("book_" + CatalogName + "_с_" + Page + "_до_"+CountPage+ ".xls");
                     FileOutputStream fileOut1 = new FileOutputStream("book_" + CatalogName + ".xls");
                     wb.write(fileOut1);
                     fileOut1.close();
@@ -236,6 +274,10 @@ public class unikma {
 
             }
             System.out.println(Page);
+            try {
+                int RandomTime2 = (int) (Math.random() * ((20000 -1000 ) + 1)) + 1000;
+                Thread.sleep(RandomTime2);
+            } catch(InterruptedException ex) {}
             Page++;
         }
 
