@@ -17,17 +17,17 @@ import java.io.IOException;
 public class rb_ochki_ru {
     public static void main(String[] args) throws IOException {
         System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/rb_ochki_ru/rb.cer.jks");
-        String Tovar = "AVIATOR";
+        String Tovar = "Поляризованные";
         String Manual_category =Tovar;
 //        String Manual_Proizvoditel = "Цветомания";
 
-        String Path = "https://rb-ochki.ru/katalog/aviator/?page=";
+        String Path = "https://rb-ochki.ru/technologys/polarized?page=";
         //       String Path = "http://www.funkofunatic.ru/";
         //cd C:\Program Files\Java\jdk1.7.0_79\bin
 //keytool -import -v -file S:/ProjectJava/Kwork/src/rb_ochki_ru/rb.cer -keystore S:/ProjectJava/Kwork/src/rb_ochki_ru/rb.cer.jks -storepass drowssap
 
         String CatalogName = Tovar;
-        int LastPage = 1; //234  Completed Models
+        int LastPage = 5; //234  Completed Models
         Workbook wb = new HSSFWorkbook();
 //    XSSFWorkbook wb = new XSSFWorkbook();
         CreationHelper createHelper = wb.getCreationHelper();
@@ -62,6 +62,9 @@ public class rb_ochki_ru {
 //                String dataID = doc1.getElementsByClass("button-text catalog__button\n" +
 //                        "\t\t\t\t\tcatalog__button-price addToBasket").get(yyy).attr("data-id");
 //                System.out.println(dataID);
+
+                                String SKU = doc1.getElementsByClass("item").get(yyy).attr("data-id");
+                System.out.println(SKU);
 
 //                String NameProduct = doc1.getElementsByClass("catalog__name").get(yyy).text();
 //                System.out.println(NameProduct);
@@ -126,14 +129,18 @@ public class rb_ochki_ru {
 //                    String SKU  = doc4.getElementsByClass("product-num").text();
 //                    System.out.println(SKU);
 
-                    String SKU  = doc4.getElementsByTag("h5").select("b").text();
-                    System.out.println(SKU);
+//                    String SKU  = doc4.getElementsByTag("h5").select("b").text();
+//                    System.out.println(SKU);
 
                     //.select("[name=id]").attr("value");
 
 //                     String Description  = doc4.getElementsByTag("div").select("[itemprop=description]").select("p").text();
-                    String Description  = doc4.getElementsByClass("zxcm").select("p").attr("itemprop[description]");
+                    String Description  = doc4.getElementsByClass("zxcm").select("p[itemprop=description]").text();
                     System.out.println(Description);
+
+                    String Description2  = doc4.getElementsByClass("thumbs").select("iframe").attr("src");
+                    System.out.println(Description2);
+
 
 //                    String Description_text  = doc4.getElementsByClass("tab-content").text();
 //                    System.out.println(Description_text);
@@ -148,7 +155,7 @@ public class rb_ochki_ru {
 
 //
                     Cell cell227p = row.createCell(0);
-                    cell227p.setCellValue("hob-"+ SKU);
+                    cell227p.setCellValue(SKU);
 
                     Cell cell227 = row.createCell(1);
                     cell227.setCellValue(NamePrduct);
@@ -166,7 +173,8 @@ public class rb_ochki_ru {
                     Cell cell224221 = row.createCell(4);
                     cell224221.setCellValue("https://rb-ochki.ru"+MainFoto);
 
-
+                    Cell cell2242desc2 = row.createCell(18);
+                    cell2242desc2.setCellValue("<center>"+Description2+"</center><br>");
 
                     Cell cell2242 = row.createCell(19);
                     cell2242.setCellValue(Description);
@@ -175,7 +183,7 @@ public class rb_ochki_ru {
 //
                     Elements links_attr = doc4.getElementsByClass("product-properties").select("label");
                     int attr= 0;
-                    int attr_cell= 20;
+                    int attr_cell= 22;
                     for (Element links_attrs : links_attr) {
 //                        String atr = links_attr.get(attr).select("span").text();
                         String atr_znachenie = links_attr.get(attr).select("label").text();
