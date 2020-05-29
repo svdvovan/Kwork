@@ -7,7 +7,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import javax.management.Descriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,16 +18,16 @@ import java.util.Iterator;
 public class quarta_hunt {
       public static void main(String[] args) throws IOException {
         System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/quarta_hunt/quarta-hunt_ru.crt.jks");
-        String Tovar = "Средства для чистки и смазки оружия";
+        String Tovar = "VORTEX";
         String Manual_category =Tovar;
 //        String Manual_Proizvoditel = "Цветомания";
 
-//        String Path = "https://unikma.ru/catalog/zabory_iz_svarnykh_paneley/?PAGEN_2=";
-        String Path = "https://quarta-hunt.ru/catalog/sredstva-dlya-chistki-i-smazki-oruzhiya/";
+        String Path = "https://quarta-hunt.ru/catalog/vortex/";
+//        String Path = "https://quarta-hunt.ru/catalog/sredstva-dlya-chistki-i-smazki-oruzhiya/";
 //keytool -import -v -file S:/ProjectJava/Kwork/src/quarta_hunt/quarta-hunt_ru.crt -keystore S:/ProjectJava/Kwork/src/quarta_hunt/quarta-hunt_ru.crt.jks -storepass drowssap
 
         String CatalogName = Tovar;
-        int LastPage = 41;
+        int LastPage = 1;
         Workbook wb = new HSSFWorkbook();
 //    XSSFWorkbook wb = new XSSFWorkbook();
         CreationHelper createHelper = wb.getCreationHelper();
@@ -49,8 +48,8 @@ public class quarta_hunt {
         //  int Page = 59;
     int Page = 1;
     for (int count = 1; count <= LastPage; count++) {
-        String  Path2 = Path+"?PAGEN_1="+ Page;
-//        String  Path2 = Path;
+//        String  Path2 = Path+"?PAGEN_1="+ Page;
+        String  Path2 = Path;
 
 
 
@@ -80,8 +79,8 @@ public class quarta_hunt {
 
             try {
                 Document doc4 = Jsoup.connect(addressUrl3)
-                            .proxy("34.95.167.51", 8080)
-                        .timeout(20000)
+                            .proxy("201.91.82.155", 3128)
+                        .timeout(200000)
                         .ignoreHttpErrors(true)
                         .ignoreContentType(true)
                         .followRedirects(true)
