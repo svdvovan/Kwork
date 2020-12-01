@@ -18,11 +18,11 @@ import java.util.Iterator;
 public class quarta_hunt {
       public static void main(String[] args) throws IOException {
         System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/quarta_hunt/quarta-hunt_ru.crt.jks");
-        String Tovar = "VORTEX";
+        String Tovar = "Лазерные целеуказатели";
         String Manual_category =Tovar;
 //        String Manual_Proizvoditel = "Цветомания";
 
-        String Path = "https://quarta-hunt.ru/catalog/vortex/";
+        String Path = "https://quarta-hunt.ru/catalog/lazernye-tseleukazateli/";
 //        String Path = "https://quarta-hunt.ru/catalog/sredstva-dlya-chistki-i-smazki-oruzhiya/";
 //keytool -import -v -file S:/ProjectJava/Kwork/src/quarta_hunt/quarta-hunt_ru.crt -keystore S:/ProjectJava/Kwork/src/quarta_hunt/quarta-hunt_ru.crt.jks -storepass drowssap
 
@@ -48,8 +48,8 @@ public class quarta_hunt {
         //  int Page = 59;
     int Page = 1;
     for (int count = 1; count <= LastPage; count++) {
-//        String  Path2 = Path+"?PAGEN_1="+ Page;
-        String  Path2 = Path;
+        String  Path2 = Path+"?PAGEN_1="+ Page;
+//        String  Path2 = Path;
 
 
 
@@ -79,12 +79,13 @@ public class quarta_hunt {
 
             try {
                 Document doc4 = Jsoup.connect(addressUrl3)
-                            .proxy("201.91.82.155", 3128)
-                        .timeout(200000)
+                            .proxy("217.172.190.243", 5836)
+                        .timeout(10000)
                         .ignoreHttpErrors(true)
                         .ignoreContentType(true)
                         .followRedirects(true)
-                        .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.38 Safari/537.36")
+//                        .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.38 Safari/537.36")
+                       .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
                         .get();
 
 

@@ -1,4 +1,4 @@
-package simplebuild;
+package urumqi_portal;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -13,18 +13,18 @@ import java.io.IOException;
 import java.util.Iterator;
 
 /**
- * Created by SretenskyVD on 29.05.2020.
+ * Created by SretenskyVD on 29.06.2020.
  */
-public class simplebuild {
+public class urumqi_portal {
     public static void main(String[] args) throws IOException {
-        System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/simplebuild/simplebuild.cer.jks");
-        String Tovar = "Уголки универсальные ПВХ";
-        String LastBroadcump ="Уголки ПВХ цветные (2,74м)";
+     //   System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/simplebuild/simplebuild.cer.jks");
+        String Tovar = "Пластыри,мазь, эликсиры";
+        String LastBroadcump ="Пластыри,мазь, эликсиры";
         int LastPage = 1;
         String Manual_category =Tovar;
 //        String Manual_Proizvoditel = "Цветомания";
 
-        String Path = "https://simplebuild.ru/productions/pvc-corners-color.html";
+        String Path = "http://www.urumqi-portal.ru/shop/plastyri";
 //        String Path = "https://quarta-hunt.ru/catalog/sredstva-dlya-chistki-i-smazki-oruzhiya/";
 //keytool -import -v -file S:/ProjectJava/Kwork/src/simplebuild/simplebuild.cer -keystore S:/ProjectJava/Kwork/src/simplebuild/simplebuild.cer.jks -storepass drowssap
 
@@ -51,7 +51,7 @@ public class simplebuild {
         int Page = 1;
         for (int count = 1; count <= LastPage; count++) {
             if(Page>1){
-              Path2 = "https://simplebuild.ru/productions/wood-perforated-panels-"+Page+"-30.html";
+                Path2 = Path+";"+Page;
             }else{  Path2 = Path;}
 
 //        String  Path2 = Path+"?PAGEN_1="+ Page;
@@ -61,7 +61,7 @@ public class simplebuild {
 
             Document doc1 = Jsoup.connect(Path2).get();
 
-            Elements links3 = doc1.getElementsByClass("product prodWrap");
+            Elements links3 = doc1.getElementsByClass("list-item");
             int yyy = 0;
             for (Element link3 : links3) {
 
@@ -73,8 +73,8 @@ public class simplebuild {
 //                System.out.println(NameProduct);
 //
 //            String MainPrice = doc1.getElementsByClass("PricesalesPrice").get(yyy).text();
-                String MainPrice = doc1.getElementsByClass("productPrice").get(yyy).select("meta").last().attr("content");
-            System.out.println(MainPrice);
+//                String MainPrice = doc1.getElementsByClass("productPrice").get(yyy).select("meta").last().attr("content");
+//                System.out.println(MainPrice);
 
                 System.out.println();
                 String addressUrl3 = (links3.get(yyy).select("a[href]").attr("abs:href"));
@@ -102,8 +102,8 @@ public class simplebuild {
                     String Category = Manual_category;
                     System.out.println(Category);
 
-//                    String MainPrice = doc4.getElementsByClass("product-price").text();
-//                    System.out.println(MainPrice);
+                    String MainPrice = doc4.getElementsByClass("tov-28").text();
+                    System.out.println(MainPrice);
 
 
                     String NamePrduct =   doc4.getElementsByTag("h1").text();
@@ -121,17 +121,17 @@ public class simplebuild {
                     String SKU  = doc4.getElementsByClass("product-num").text();
                     System.out.println(SKU);
 
-                    String Description  = doc4.getElementsByClass("product-description").html();
+                    String Description  = doc4.getElementsByClass("tov-47").html();
                     System.out.println(Description);
 
-                    String Description_text  = doc4.getElementsByClass("tab-content").text();
+                    String Description_text  = doc4.getElementsByClass("tov-9 tov-14").text();
                     System.out.println(Description_text);
 
-                    String PriceFor  = doc4.getElementsByClass("product-fields-title").first().text();
-                    System.out.println(PriceFor);
-
-                    String PriceForEtc  = doc4.getElementsByClass("product-field-display").first().text();
-                    System.out.println(PriceForEtc);
+//                    String PriceFor  = doc4.getElementsByClass("product-fields-title").first().text();
+//                    System.out.println(PriceFor);
+//
+//                    String PriceForEtc  = doc4.getElementsByClass("product-field-display").first().text();
+//                    System.out.println(PriceForEtc);
 
 //
 //                    String breadcrumbs  = doc4.getElementsByClass("pathway separator").next().text();
@@ -215,15 +215,15 @@ public class simplebuild {
                     ////////////////////////////////////////////////////////
 
                     try {
-                        Elements pictures = doc4.getElementsByClass("additional-image").select("a");
+                        Elements pictures = doc4.getElementsByClass("tov-44");
 
                         int z = 0;
                         //                      int y3 = 6;
                         int y3 = 9;
                         for (Element picture : pictures) {
-                            System.out.println(pictures.get(z).select("a").attr("abs:href"));
+                            System.out.println(pictures.get(z).select("img").attr("src"));
 
-                            String Foto =  pictures.get(z).select("a").attr("href");
+                            String Foto =  pictures.get(z).select("img").attr("src");
 
 //                        String AllFoto =  doc4.getElementsByClass("image").get(z).select("a").attr("abs:href");
 //                        System.out.println(AllFoto);
@@ -236,7 +236,7 @@ public class simplebuild {
 //                        FileUtils.copyURLToFile(url, file);
 
                             Cell cell5555 = row.createCell(y3);
-                            cell5555.setCellValue("https://simplebuild.ru"+Foto);
+                            cell5555.setCellValue("http://www.urumqi-portal.ru"+Foto);
                             y3++;
 
 
@@ -286,7 +286,9 @@ public class simplebuild {
 
 
 ///////////////////////////////////
-                    String MainFoto = doc4.getElementsByClass("main-image").select("a").attr("abs:href");
+//                    String MainFoto = doc4.getElementsByClass("tov-43").select("src").attr("abs:href");
+                    String MainFoto ="http://www.urumqi-portal.ru"+ doc4.getElementsByClass("tov-43").attr("src");
+                    System.out.println(MainFoto);
 //
 //                    String Model = doc4.getElementsByClass("list-unstyled").first().select("li").get(1).text();
 //                    System.out.println(Model);
@@ -339,14 +341,14 @@ public class simplebuild {
                     Cell cell2242 = row.createCell(22);
                     cell2242.setCellValue(Description);
 
-//                    Cell cell224222 = row.createCell(23);
-//                    cell224222.setCellValue(Description_text);
-
                     Cell cell224222 = row.createCell(23);
-                    cell224222.setCellValue(PriceFor.substring(0, 1).toUpperCase()+PriceFor.substring(1));
+                    cell224222.setCellValue(Description_text);
 
-                    Cell cell224222ss2 = row.createCell(24);
-                    cell224222ss2.setCellValue(PriceForEtc);
+//                    Cell cell2242221 = row.createCell(23);
+//                    cell2242221.setCellValue(PriceFor.substring(0, 1).toUpperCase()+PriceFor.substring(1));
+//
+//                    Cell cell224222ss2 = row.createCell(24);
+//                    cell224222ss2.setCellValue(PriceForEtc);
 
 
 

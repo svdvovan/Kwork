@@ -1,4 +1,4 @@
-package supertelo906090;
+package evroplast_ru;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -12,18 +12,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Created by SretenskyVD on 06.05.2019.
+ * Created by SretenskyVD on 20.08.2020.
  */
-public class supertelo906090 {
+public class evroplast_ru {
     public static void main(String[] args) throws IOException {
         System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
-        System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/supertelo906090/supertelo906090.ru.cer.jks");
-        String Tovar = "Соли SPA антицеллюлитные";
+        System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/evroplast_ru/evroplast.cer.jks");
+        String Tovar = "Клей";
         String Manual_category =Tovar;
 //        String Manual_Proizvoditel = "Цветомания";
 
-        String Path = "https://supertelo906090.ru/catalog/soli-spa-anticellulitnyje";
-//keytool -import -v -file S:/ProjectJava/Kwork/src/supertelo906090/supertelo906090.ru.cer -keystore S:/ProjectJava/Kwork/src/supertelo906090/supertelo906090.ru.cer.jks -storepass drowssap
+        String Path = "https://evroplast.ru/adhesive/";
+//keytool -import -v -file S:/ProjectJava/Kwork/src/evroplast_ru/evroplast.cer -keystore S:/ProjectJava/Kwork/src/evroplast_ru/evroplast.cer.jks -storepass drowssap
 
         String CatalogName = Tovar;
         int LastPage = 1;
@@ -42,18 +42,19 @@ public class supertelo906090 {
 
         }
         Sheet sheet = wb.getSheetAt(0);
-
-        //  int Page = 59;
+//Path+"?PAGEN_1="+ Page;
+        //  int Page = 26;
         int Page = 1;
         for (int count = 1; count <= LastPage; count++) {
-//            String  Path2 = Path + Page;
-            String  Path2 = Path;
+            String  Path2 = Path+"?PAGEN_1="+ Page;
+//            String  Path2 = Path;
 
 
 
             Document doc1 = Jsoup.connect(Path2).get();
 
-            Elements links3 = doc1.getElementsByClass("itemW");
+//            Elements links3 = doc1.getElementsByClass("e-new-catalogue-item e-new-catalogue-h");
+            Elements links3 = doc1.getElementsByClass("e-new-catalogue-item");
             int yyy = 0;
             int yyyy =1;
             for (Element link3 : links3) {
@@ -69,7 +70,7 @@ public class supertelo906090 {
 ////
 //                String MainPrice = doc1.getElementsByClass("quantity").get(yyy).select("input").attr("data-price");
 //                System.out.println(MainPrice);
-                String MainPrice = doc1.getElementsByClass("price").get(yyy).text();
+                String MainPrice = doc1.getElementsByClass("e-new-item-price").get(yyy).text();
                 System.out.println(MainPrice);
 
                 System.out.println();
@@ -119,8 +120,12 @@ public class supertelo906090 {
 //                    String Proizvoditel  = doc4.getElementsByClass("list-unstyled").first().select("li").get(0).text();
 //                    System.out.println(Proizvoditel);
 
-                    String Description  = doc4.getElementsByClass("htmlDataBlock").html();
+                    String Description  = doc4.getElementsByClass("main-info").html();
                     System.out.println(Description);
+
+                    String material  = doc4.getElementsByClass("prod-info-material").text();
+                    System.out.println(material);
+
 
 
                     int rowCount = sheet.getLastRowNum();
@@ -149,24 +154,90 @@ public class supertelo906090 {
 //                        y2++;
 //
 //                    }
+///////////////////////////////////
+                    try {
+                    Elements features = doc4.getElementsByClass("param-item");
+
+                    int z11 = 0;
+                    int y311 = 14;
+                    int y411 =15;
+
+                    for (Element featureses : features) {
+
+                        String ATTRIBUTE = doc4.getElementsByClass("param-name").get(z11).text();
+                        String ATTRIBUTE2 =doc4.getElementsByClass("param-val").get(z11).text();
+                        Cell cell5555 = row.createCell(y311);
+                        Cell cell6666 = row.createCell(y411);
+                        System.out.println(ATTRIBUTE + " " +ATTRIBUTE2);
+                        cell5555.setCellValue(ATTRIBUTE);
+                        cell6666.setCellValue(ATTRIBUTE2);
+                        y311=y311+2;
+                        y411=y411+2;
+                        z11++;
+                    }
+
+                }
+                catch (java.lang.NullPointerException e){
+                    e.printStackTrace();
+                }
+///////////////////////////////////
+                    String ATTRIBUTE111 = doc4.getElementsByClass("param-item-flex").text();
+                    System.out.println(ATTRIBUTE111);
+
+//////////////////////////////////
+//
+//                    try {
+//                        Elements features = doc4.getElementsByClass("param-left-main");
+//
+//                        int z11f = 0;
+//                        int z11ff = 1;
+//                        int y311f = 24;
+//                        int y411f =25;
+//
+//                        for (Element featureses : features) {
+//
+//                            String ATTRIBUTEf = doc4.getElementsByClass("param-item-flex").get(z11f).select("span").text();
+//                            String ATTRIBUTE2f =doc4.getElementsByClass("param-item-flex").get(z11ff).select("span").text();
+//                            Cell cell5555 = row.createCell(y311f);
+//                            Cell cell6666 = row.createCell(y411f);
+//                            System.out.println(ATTRIBUTEf + " " +ATTRIBUTE2f);
+//                            cell5555.setCellValue(ATTRIBUTEf);
+//                            cell6666.setCellValue(ATTRIBUTE2f);
+//                            y311f=y311f+2;
+//                            y411f=y411f+2;
+//                            z11f++;
+//                            z11ff++;
+//                        }
+//
+//                    }
+//                    catch (java.lang.NullPointerException e){
+//                        e.printStackTrace();
+//                    }
+//
+
+
 
 ///////////////////////////////////
-                    String MainFoto = doc4.getElementsByClass("general-img popup-gallery").select("a").attr("abs:href");
+                    String MainFoto = "https://evroplast.ru/"+ doc4.getElementsByClass("sp-big").attr("data-src");
+                    System.out.println(MainFoto);
+
+                    String MainFoto2= "https://evroplast.ru/"+ doc4.getElementsByClass("param-section-block").select("img").attr("src");
+                    System.out.println(MainFoto2);
 //
 //                    String Model = doc4.getElementsByClass("list-unstyled").first().select("li").get(1).text();
 //                    System.out.println(Model);
 
 /////////////////////////////////////////////////////////
                     try {
-                        Elements pictures = doc4.getElementsByClass("thumblist popup-gallery").select("a");
+                        Elements pictures = doc4.getElementsByClass("sp-thumbnail");
 
                         int z = 0;
                         //                      int y3 = 6;
                         int y3 = 6;
                         for (Element picture : pictures) {
-                            System.out.println(pictures.get(z).select("a").attr("abs:href"));
+                            System.out.println("https://evroplast.ru/"+pictures.get(z).attr("src"));
 
-                            String Foto =  pictures.get(z).select("a").attr("abs:href");
+                            String Foto = "https://evroplast.ru/"+ pictures.get(z).attr("src");
                             Cell cell5555 = row.createCell(y3);
                             cell5555.setCellValue(Foto);
                             y3++;
@@ -183,7 +254,7 @@ public class supertelo906090 {
                     cell2279.setCellValue(sku);
 
                     Cell cell227 = row.createCell(2);
-                    cell227.setCellValue(NameProduct);
+                    cell227.setCellValue(NameProduct.substring(0, 1).toUpperCase()+NameProduct.substring(1) );
 
 //
                     Cell cell1 = row.createCell(1);
@@ -198,6 +269,10 @@ public class supertelo906090 {
                     Cell cell2242 = row.createCell(4);
                     cell2242.setCellValue(Description);
 
+
+                    Cell cell2242flex = row.createCell(24);
+                    cell2242flex.setCellValue(ATTRIBUTE111);
+
 //                    Cell cell22422 = row.createCell(5);
 //                    cell22422.setCellValue(Proizvoditel);
 //
@@ -206,6 +281,15 @@ public class supertelo906090 {
 //
                     Cell cell2242211 = row.createCell(5);
                     cell2242211.setCellValue(MainFoto);
+
+
+                    Cell cell224foto2 = row.createCell(30);
+                    cell224foto2.setCellValue(MainFoto2);
+
+                    Cell cell224mat = row.createCell(31);
+                    cell224mat.setCellValue(material);
+
+
 
                 }catch (java.lang.IllegalArgumentException e){
                     e.printStackTrace();}

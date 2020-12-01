@@ -18,12 +18,12 @@ import java.util.Iterator;
 public class medfarma {
       public static void main(String[] args) throws IOException {
 //        System.setProperty("javax.net.ssl.trustStore", "S:/ProjectJava/Kwork/src/bestdigitals/bestdigitals_ru.crt.jks");
-        String Tovar = "Новинки";
+        String Tovar = "Смазки и Лубриканты2";
         String Manual_category =Tovar;
 //        String Manual_Proizvoditel = "Цветомания";
 
 //        String Path = "https://unikma.ru/catalog/zabory_iz_svarnykh_paneley/?PAGEN_2=";
-        String Path = "http://xn--80aakd8ad1a4a.xn--p1ai/Novinki.html";
+        String Path = "http://xn--80aakd8ad1a4a.xn--p1ai/geli-i-lubrikantyi.html";
 //keytool -import -v -file S:/ProjectJava/Kwork/src/bestdigitals/bestdigitals_ru.crt -keystore S:/ProjectJava/Kwork/src/bestdigitals/bestdigitals_ru.crt.jks -storepass drowssap
 
         String CatalogName = Tovar;
@@ -113,6 +113,11 @@ public class medfarma {
                 String SKU  = doc4.getElementsByClass("good_art").text();
                 System.out.println(SKU);
 
+                String Price  = doc4.getElementsByClass("myprice").text();
+                System.out.println(Price);
+
+
+
                 String Description  = doc4.getElementsByClass("good_desc").text();
                 System.out.println(Description);
 
@@ -136,7 +141,7 @@ public class medfarma {
 
 //
                 Cell cell224 = row.createCell(3);
-                cell224.setCellValue(MainPrice);
+                cell224.setCellValue(Price);
 
 
 //                Elements table = doc4.getElementsByClass("proptogh proptog col1");
